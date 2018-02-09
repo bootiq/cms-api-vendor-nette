@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
- * @method onNotRendered($mixed)
+ * @method onNotRendered(\Exception $exception)
  * @method onBlockNotRendered(Block $block, \Exception $exception)
  */
 class PageControl extends Control
@@ -93,7 +93,7 @@ class PageControl extends Control
         }
 
         if (false === $rendered) {
-            $this->onNotRendered(false);
+            $this->onNotRendered(new CmsApiVendorException('Page not rendered'));
         }
     }
 
@@ -122,6 +122,7 @@ class PageControl extends Control
             }
         }
         $this->logger->warning('Control for type:' . $blockType . ' not defined');
+        $this->onBlockNotRendered($block, new CmsApiVendorException('Control for type:' . $blockType . ' not defined'));
         return false;
     }
 }

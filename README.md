@@ -95,13 +95,12 @@ Example of usage of our callback.
     {
         $control = $this->pageControlFactory->create();
         
-        $control->onNotRendered[] = function ($data) {
-            if ($data instanceof \Exception) {
-                // DO SOMETHING WITH API EXCEPTION
-            } else {
-                // DO SOMETHING IF NOTHING IS RENDERED
-            }
+        $control->onNotRendered[] = function ($exception) {
+            // DO SOMETHING WITH EXCEPTION
         };
+        $control->onBlockNotRendered[] = function ($block, $exception) {
+            // DO SOMETHING WITH BLOCK OR EXCEPTION
+        };        
         
         return $control;
     }
